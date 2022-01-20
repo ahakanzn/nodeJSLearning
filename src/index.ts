@@ -1,4 +1,5 @@
-import express, {Request, Response, Express, NextFunction} from "express"
+import express, { Request, Response, Express, NextFunction, response } from "express"
+import { TypeFormatFlags } from "typescript";
 //Make a simple calculator
 /*
 1- create 4 endpoint
@@ -17,25 +18,39 @@ All endpoints will return result in the format given below;
   status: boolean  
 }
 */
+class CalculatorRequest {
+  apple: number;
+  pear: number;
+
+  constructor(apple: number, pear: number) {
+    this.apple = apple;
+    this.pear = pear;
+  }
+
+  add(): number {
+    return this.apple + this.pear;
+  }
+}
 
 
 const app = express()
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 const port = 3000
-//Middleware
-app.use( (req: Request, res: Response, next: NextFunction)=> {
-  console.log("Middle wareee");
-  next();
-});
 
+
+//const hello = (req: Request<any, any, { apple: number, pear: number }>, res: Response) => {
+const addFunction = (req: Request<any, any, CalculatorRequest>, res: Response) => {
+  const calculator = new CalculatorRequest(req.body.apple, req.body.pear)
+  res.json({ total: calculator.add() });
+};
 //Routes
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!')
-})
+app.post('/add', addFunction)
 
 app.get('/posts', (req: Request, res: Response, next: NextFunction) => {
   res.send('Hello Posts!')
 })
-app.post('/add', add)
+
 
 function add(req: Request, res: Response) {
   res.send(req)
