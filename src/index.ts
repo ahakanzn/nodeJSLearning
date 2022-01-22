@@ -1,4 +1,5 @@
 import express, { Request, Response, Express, NextFunction, response } from "express"
+
 import { TypeFormatFlags } from "typescript";
 //Make a simple calculator
 /*
@@ -18,67 +19,64 @@ All endpoints will return result in the format given below;
   status: boolean  
 }
 */
-class CalculatorRequest {
-  apple: number;
-  pear: number;
-
-  constructor(apple: number, pear: number) {
-    this.apple = apple;
-    this.pear = pear;
-  }
-
-  add(): number {
-    return this.apple + this.pear;
-  }
-
-  substract(): number {
-    return this.apple - this.pear;
-  }
-
-  multiply(): number {
-    return this.apple*this.pear;
-  }
-
-  divide(): number {
-    return this.apple/this.pear;
-  }
-}
-
 
 const app = express()
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 const port = 3000
 
+var calculator = require('./calculator');
 
-//const hello = (req: Request<any, any, { apple: number, pear: number }>, res: Response) => {
-const addFunction = (req: Request<any, any, CalculatorRequest>, res: Response) => {
-  const calculator = new CalculatorRequest(req.body.apple, req.body.pear)
-  res.json({ result: calculator.add(), status: true });
+
+const add = (req: Request<any, any, { apple: number, pear: number }>, res: Response) => {
+  var calResult = calculator.addFunction(req.body.apple, req.body.pear);
+  if (!isNaN(calResult)) {
+    res.json({ result: calResult, status: "OK" });
+  }
+  else {
+    res.json({ result: calResult, status: "Hata" });
+  }
 };
 
-const substractFunction = (req: Request<any, any, CalculatorRequest>, res: Response) => {
-  const calculator = new CalculatorRequest(req.body.apple, req.body.pear)
-  res.json({ result: calculator.substract(), status: true });
+const sub = (req: Request<any, any, { apple: number, pear: number }>, res: Response) => {
+  var calResult = calculator.subFunction(req.body.apple, req.body.pear);
+  if (!isNaN(calResult)) {
+    res.json({ result: calResult, status: "OK" });
+  }
+  else {
+    res.json({ result: calResult, status: "Hata" });
+  }
 };
 
-const multiplyFunction = (req: Request<any, any, CalculatorRequest>, res: Response) => {
-  const calculator = new CalculatorRequest(req.body.apple, req.body.pear)
-  res.json({ result: calculator.multiply(), status: true });
+const multiply = (req: Request<any, any, { apple: number, pear: number }>, res: Response) => {
+  var calResult = calculator.multiplyFunction(req.body.apple, req.body.pear);
+  if (!isNaN(calResult)) {
+    res.json({ result: calResult, status: "OK" });
+  }
+  else {
+    res.json({ result: calResult, status: "Hata" });
+  }
 };
 
-const divideFunction = (req: Request<any, any, CalculatorRequest>, res: Response) => {
-  const calculator = new CalculatorRequest(req.body.apple, req.body.pear)
-  res.json({ result: calculator.divide(), status: true });
+const divide = (req: Request<any, any, { apple: number, pear: number }>, res: Response) => {
+  var calResult = calculator.divideFunction(req.body.apple, req.body.pear);
+  if (!isNaN(calResult)) {
+    res.json({ result: calResult, status: "OK" });
+  }
+  else {
+    res.json({ result: calResult, status: "Hata" });
+  }
 };
+
+
 //Routes
-app.post('/add', addFunction)
+app.post('/add', add)
 
-app.post('/sub', substractFunction)
+app.post('/sub', sub)
 
-app.post('/mul', multiplyFunction)
+app.post('/mul', multiply)
 
-app.post('/div', divideFunction)
+app.post('/div', divide)
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
