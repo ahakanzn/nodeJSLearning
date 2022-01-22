@@ -30,6 +30,18 @@ class CalculatorRequest {
   add(): number {
     return this.apple + this.pear;
   }
+
+  substract(): number {
+    return this.apple - this.pear;
+  }
+
+  multiply(): number {
+    return this.apple*this.pear;
+  }
+
+  divide(): number {
+    return this.apple/this.pear;
+  }
 }
 
 
@@ -42,19 +54,31 @@ const port = 3000
 //const hello = (req: Request<any, any, { apple: number, pear: number }>, res: Response) => {
 const addFunction = (req: Request<any, any, CalculatorRequest>, res: Response) => {
   const calculator = new CalculatorRequest(req.body.apple, req.body.pear)
-  res.json({ total: calculator.add() });
+  res.json({ result: calculator.add(), status: true });
+};
+
+const substractFunction = (req: Request<any, any, CalculatorRequest>, res: Response) => {
+  const calculator = new CalculatorRequest(req.body.apple, req.body.pear)
+  res.json({ result: calculator.substract(), status: true });
+};
+
+const multiplyFunction = (req: Request<any, any, CalculatorRequest>, res: Response) => {
+  const calculator = new CalculatorRequest(req.body.apple, req.body.pear)
+  res.json({ result: calculator.multiply(), status: true });
+};
+
+const divideFunction = (req: Request<any, any, CalculatorRequest>, res: Response) => {
+  const calculator = new CalculatorRequest(req.body.apple, req.body.pear)
+  res.json({ result: calculator.divide(), status: true });
 };
 //Routes
 app.post('/add', addFunction)
 
-app.get('/posts', (req: Request, res: Response, next: NextFunction) => {
-  res.send('Hello Posts!')
-})
+app.post('/sub', substractFunction)
 
+app.post('/mul', multiplyFunction)
 
-function add(req: Request, res: Response) {
-  res.send(req)
-}
+app.post('/div', divideFunction)
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
