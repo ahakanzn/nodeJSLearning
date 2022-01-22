@@ -27,7 +27,6 @@ const port = 3000
 
 var calculator = require('./calculator');
 
-
 const add = (req: Request<any, any, { apple: number, pear: number }>, res: Response) => {
   var calResult = calculator.addFunction(req.body.apple, req.body.pear);
   if (!isNaN(calResult)) {
