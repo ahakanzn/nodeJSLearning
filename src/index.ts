@@ -1,3 +1,4 @@
+import { Console } from "console";
 import express, { Request, Response, Express, NextFunction, response } from "express"
 
 
@@ -20,6 +21,11 @@ All endpoints will return result in the format given below;
   status: boolean  
 }
 */
+const dbURL = 'mongodb+srv://ahakanzn:Ahmet123.@cluster0.gc27e.mongodb.net/History?retryWrites=true&w=majority'
+const mongoose = require('mongoose');
+mongoose.connect(dbURL, {useNewUrlParse: true, useUnifiedTopology: true})
+  .then((result: Function)=> console.log('Connection success'))
+  .catch((err: Function)=> console.log('Error!!'))
 
 const app = express()
 app.use(express.json());
@@ -27,6 +33,8 @@ app.use(express.urlencoded({ extended: false }));
 const port = process.env.PORT ?? 3000;
 
 var calculator = require('./calculator');
+
+
 
 const add = (req: Request<any, any, { apple: number, pear: number }>, res: Response) => {
   var calResult = calculator.addFunction(req.body.apple, req.body.pear);
