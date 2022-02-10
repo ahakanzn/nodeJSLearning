@@ -21,7 +21,7 @@ All endpoints will return result in the format given below;
   status: boolean  
 }
 */
-const dbURL = 'mongodb+srv://ahakanzn:Ahmet123.@cluster0.gc27e.mongodb.net/History?retryWrites=true&w=majority'
+const dbURL = 'mongodb+srv://ahakanzn:***.@cluster0.gc27e.mongodb.net/**?retryWrites=true&w=majority'
 const mongoose = require('mongoose');
 mongoose.connect(dbURL, {useNewUrlParse: true, useUnifiedTopology: true})
   .then((result: Function)=> console.log('Connection success'))
