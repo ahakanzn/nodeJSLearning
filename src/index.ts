@@ -38,7 +38,7 @@ async function insertAdditionToDB(req: Request, total: number) {
   }
 }
 
-const substractionCollection = db.collection("substractionCollection")
+const substractionCollection = db.collection("SubstractionCollection")
 async function insertSubstractionToDB(req: Request, total: number) {
   try {
     const result = await substractionCollection.insertOne({
@@ -52,7 +52,7 @@ async function insertSubstractionToDB(req: Request, total: number) {
   }
 }
 
-const multiplicationCollection = db.collection("AdditionCollections")
+const multiplicationCollection = db.collection("MultiplicationCollections")
 async function insertMulToDB(req: Request, total: number) {
   try {
     const result = await multiplicationCollection.insertOne({
@@ -66,7 +66,7 @@ async function insertMulToDB(req: Request, total: number) {
   }
 }
 
-const divisionCollection = db.collection("AdditionCollections")
+const divisionCollection = db.collection("DivisionCollections")
 async function insertDivisionToDB(req: Request, total: number) {
   try {
     const result = await divisionCollection.insertOne({
@@ -137,9 +137,11 @@ const divide = (req: Request<any, any, { apple: number, pear: number }>, res: Re
 };
 
 const getCalculatorHistory = async (res: Response) => {
-  const additions = AdditionCollection.find({}).toArray();
+  //const additions = AdditionCollection.find({}).toArray();
   try {
-    res.json({res: "zort"});
+    const games = (await AdditionCollection.find({}).toArray());
+    
+    res.json({result: games.at(1)});
   } catch (error) {
     //res.json({res: "hata"})
   }
